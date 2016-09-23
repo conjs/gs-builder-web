@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>GS-BUILDER</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Sidebar -->
+			<section id="sidebar">
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="#intro">Home</a></li>
+							<li><a href="#tcpsocket">TcpSocketServer</a></li>
+							<li><a href="#websocket">WebSocketServer</a></li>
+							<li><a href="#rpc">RPC</a></li>
+							<li><a href="#dependencies">dependencies</a></li>
+							
+						</ul>
+					</nav>
+				</div>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+							<h1>GS-Builder</h1>
+							<p>
+							Easy and Fast build your Game Server<br />
+							This Library is Opensource. 
+							
+							<a href="https://github.com/conjs/GS-Builder" class="icon fa-github" target="_blank"><span class="label">Github</span></a>
+							</p>
+							<ul class="actions">
+								<li><a href="#one" class="button scrolly">More</a></li>
+							</ul>
+						</div>
+					</section>
+
+				<!-- One -->
+					<section id="one" class="wrapper style2 spotlights">
+						<section id="tcpsocket">
+							<!-- <a href="#" class="image"><img src="images/pic01.jpg" alt="" data-position="center center" /></a>-->
+							<div class="content">
+								<div class="inner">
+									<h2>Build TcpSocket Server</h2>
+									<pre>
+public void startTcp() throws Exception{
+	//Boot Param
+	ConfigEntry conf = ConfigEntry.build().builder("IP","127.0.0.1").builder("PORT",7777);
+
+	//onConnect
+	IConnect connecter = new IConnect() {
+		@Override
+		public void onConnect(Channel channel) {
+			log(":: onConnect ::");
+		}
+	};
+
+	//onDisconnect
+	IDisconnect disconnect = new IDisconnect() {
+		@Override
+		public void onDisconnect(Channel channel) {
+			log(":: onDisConnect ::");
+		}
+	};
+
+
+	//onMessageReceived
+	IData onData = new IData() {
+		@Override
+		public void onData(ServerMessage message, Channel channel) {
+			log(":: onMessageRecive ::");
+		}
+	};
+
+	//Start Tcp Server
+	new com.gamecoder.core.tcp.Booter().start(conf,
+		new TcpBootHandler(Optional.empty(),connecter,disconnect,onData));
+}
+									</pre>
+
+									<ul class="actions">
+										<li><a href="#" class="button">Top</a></li>
+									</ul>
+								</div>
+							</div>
+						</section>
+						<section id="websocket">
+							<!--<a href="#" class="image"><img src="images/pic02.jpg" alt="" data-position="top center" /></a>-->
+							<div class="content">
+								<div class="inner">
+									<h2>Build Websocket Server</h2>
+									
+									<pre>
+public void startWebSocket() throws Exception{
+	//Boot Param
+	ConfigEntry conf = ConfigEntry.build().builder("IP","127.0.0.1").builder("PORT",8888);
+
+	//onConnect
+	IConnect connecter = new IConnect() {
+		@Override
+		public void onConnect(Channel channel) {
+			log(":: onConnect ::");
+		}
+	};
+
+	//onDisconnect
+	IDisconnect disconnect = new IDisconnect() {
+		@Override
+		public void onDisconnect(Channel channel) {
+			log(":: onDisConnect ::");
+		}
+	};
+
+	//on Http MessageReceived
+	IHttpData httpData = new IHttpData() {
+		@Override
+		public void onData(FullHttpRequest request, Channel channel) {
+			log(":: onHttpMessageReceived ::");
+		}
+	};
+
+	//on Websocket MessageReceived
+	IWebSocketData webSocketData = new IWebSocketData() {
+		@Override
+		public void onData(ChannelHandlerContext ctx, String data) {
+			log(":: onWebSocketMessageReceived ::");
+		}
+	};
+
+	//Start WebSocket Server
+	new com.gamecoder.core.websocket.Booter().start(conf,new WebSocketBootHandler(Optional.empty(),connecter,disconnect,webSocketData,httpData));
+}
+									</pre>
+									<ul class="actions">
+										<li><a href="#" class="button">Top</a></li>
+									</ul>
+								</div>
+							</div>
+						</section>
+						<section id="rpc">
+							<!--<a href="#" class="image"><img src="images/pic03.jpg" alt="" data-position="25% 25%" /></a>-->
+							<div class="content">
+								<div class="inner">
+									<h2>Build RPC Server</h2>
+									
+										<pre>
+public void startRpc() throws Exception{
+	//Boot Param
+	ConfigEntry conf = ConfigEntry.build().builder("IP","127.0.0.1").builder("PORT",9999);
+
+	//on Http MessageReceived
+	IHttpData httpData = new IHttpData() {
+		@Override
+		public void onData(FullHttpRequest request, Channel channel) {
+			log(":: onHttpMessageReceived ::");
+		}
+	};
+
+	//Start Rpc Server
+	new com.gamecoder.core.rpc.Booter().start(conf,new RpcBootHandler(Optional.empty(),httpData));
+}
+										</pre>
+									</p>
+									<ul class="actions">
+										<li><a href="#" class="button">Top</a></li>
+									</ul>
+								</div>
+							</div>
+						</section>
+					</section>
+					
+					<section id="dependencies" class="wrapper style1 fade-up">
+						<div class="inner">
+							<h2>Dependencies</h2>
+							<p>
+							You require the following to build Project:
+							<pre>
+* JDK8
+* Gradle
+* Netty4
+							</pre>
+							</p>
+							
+						</div>
+					</section>
+
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; <a href="http://game-coder.com" target="_blank">GAME-CODER.COM</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
